@@ -1,3 +1,83 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This is just a template to use when submitting manuscripts to Frontiers, it is not mandatory to use frontiers.cls nor frontiers.tex  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{frontiers}
+
+\usepackage{url}
+\usepackage{amssymb,amsfonts,amsmath}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{enumerate}
+
+% Code syntax highlighting
+\usepackage{listings}
+\lstloadlanguages{C++,Python}
+
+\newcommand{\EQ}[1]{Eq.~(\ref{eq:#1})}
+\newcommand{\EQS}[2]{Eqs.~(\ref{eq:#1}) and (\ref{eq:#2})}
+\newcommand{\FIG}[1]{Fig.~\ref{fig:#1}}
+\newcommand{\TAB}[1]{Tab.~\ref{tab:#1}}
+\newcommand{\REF}[1]{ref.~\citep{#1}}
+
+\newcommand{\comment}[1]{{\color{red}#1}}
+
+\newcommand{\mut}{u}
+\newcommand{\mfit}{\langle F\rangle}
+\newcommand{\mexpfit}{\langle e^{F}\rangle}
+\newcommand{\ox}{r}
+\newcommand{\co}{\rho}
+\newcommand{\gt}{g}
+\newcommand{\gtfreq}{\gamma}
+\newcommand{\afreq}{\nu}
+\newcommand{\fcoeff}{\epsilon}
+\newcommand{\locus}{s}
+\newcommand{\locuspm}{t}
+\newcommand{\fitprior}{\Phi}
+\newcommand{\OO}{\mathcal{O}}
+
+
+\copyrightyear{}
+\pubyear{}
+%\onecolumn
+%%% write here for which journal %%%
+\def\journal{T-Cell Biology}
+\def\DOI{}
+\def\articleType{}
+\def\keyFont{\fontsize{6}{11}\helveticabold }
+\def\firstAuthorLast{Kessinger {et~al}} %use et al only if is more than 1 author
+\def\Authors{Taylor A.~Kessinger\,$^{1}$, Alan S.~Perelson\,$^{2}$ and
+  Richard A.~Neher\,$^{1,*}$}
+% Affiliations should be keyed to the author's name with superscript numbers and be listed as follows: Laboratory, Institute, Department, Organization, City, State abbreviation (USA, Canada, Australia), and Country (without detailed address information such as city zip codes or street names).
+% If one of the authors has a change of address, list the new address below the correspondence details using a superscript symbol and use the same symbol to indicate the author in the author list.
+\def\Address{$^{1}$Evolutionary Dynamics and Biophysics, Max Planck Institute for Developmental Biology, T\"ubingen, Germany \\
+$^{2}$Theoretical Biology and Biophysics, Los Alamos National Laboratory, Los Alamos, NM, USA}
+
+\def\corrAuthor{Richard A. Neher}
+\def\corrAddress{Evolutionary Dynamics and Biophysics, Max Planck
+  Institute for Developmental Biology, Spemannstra\ss{}e 35, 72076 T\"ubingen, Germany}
+\def\corrEmail{richard.neher@tuebingen.mpg.de}
+
+% \color{FrontiersBlue} Is the blue color, used in the Journal name, in the title, and the names of the sections
+% \color{darkgray} Is only used for the name of the research topic
+% \color{gray} Is only used for "Frontiers in"
+
+
+\begin{document}
+\onecolumn
+\firstpage{1}
+
+\title[Inferring HIV escape rates]{Inferring HIV escape rates from multi-locus genotype data}
+\author[\firstAuthorLast ]{\Authors}
+\address{}
+\correspondance{}
+\editor{}
+\topic{Immune responses to pathogens}
+
+\maketitle
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
@@ -889,3 +969,12 @@ AC52-06NA25396 and supported by NIH grant AI028433, the National Center
 for Research Resources, and the Office of Research Infrastructure Programs (ORIP)
 through grant OD011095 (ASP).
 
+
+
+%\bibliographystyle{./plainnat}
+%\bibliographystyle{apsrmp}
+\bibliographystyle{plainnat} % for Science articles
+%\bibliographystyle{unsrt} % for Medicine articles
+
+\bibliography{ctl_fitting}
+\end{document}

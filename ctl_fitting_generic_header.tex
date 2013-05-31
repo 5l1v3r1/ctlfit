@@ -1,0 +1,57 @@
+\documentclass[rmp,twocolumn]{revtex4}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsfonts,amsmath}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{enumerate}
+
+% Code syntax highlighting
+\usepackage{listings}
+\lstloadlanguages{C++,Python}
+
+\newcommand{\EQ}[1]{Eq.~(\ref{eq:#1})}
+\newcommand{\EQS}[2]{Eqs.~(\ref{eq:#1}) and (\ref{eq:#2})}
+\newcommand{\FIG}[1]{Fig.~\ref{fig:#1}}
+\newcommand{\TAB}[1]{Tab.~\ref{tab:#1}}
+\newcommand{\REF}[1]{ref.~\citep{#1}}
+
+\newcommand{\comment}[1]{{\color{red}#1}}
+
+\newcommand{\mut}{u}
+\newcommand{\mfit}{\langle F\rangle}
+\newcommand{\mexpfit}{\langle e^{F}\rangle}
+\newcommand{\ox}{r}
+\newcommand{\co}{\rho}
+\newcommand{\gt}{g}
+\newcommand{\gtfreq}{\gamma}
+\newcommand{\afreq}{\nu}
+\newcommand{\fcoeff}{\epsilon}
+\newcommand{\locus}{s}
+\newcommand{\locuspm}{t}
+\newcommand{\fitprior}{\Phi}
+\newcommand{\OO}{\mathcal{O}}
+
+\newcommand{\Author}{Taylor A.~Kessinger${}^{1}$, Alan S.~Perelson${}^{2}$ and Richard~A.~Neher${}^{1}$}
+\newcommand{\Affiliation}{${}^{1}$Max Planck Institute for Developmental Biology, 72076 T\"ubingen, Germany, and ${}^{2}$Theoretical Biology and Biophysics, Los Alamos National Laboratory, Los Alamos, NM 87545, USA}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.42}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Inferring HIV escape rates from multi-locus genotype data}
+\author{\Author}
+\affiliation{\Affiliation}
+
+\date{\today}
+\input{ctl_fitting.tex}
+
+%\bibliographystyle{./plainnat.bst}
+\bibliography{/ebio/ag-neher/share/bibliography/bib_nourl}
+%\bibliography{/Users/richard/bibliography/bib}
+\end{document}
+
