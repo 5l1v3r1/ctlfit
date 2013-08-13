@@ -15,13 +15,12 @@ import copy
 import glob
 import cPickle as pickle
 from time import strftime
-
 params = {'backend': 'ps',  
           'axes.labelsize': 24, 
           'axes.titlesize': 24,
           'text.fontsize': 24,
 'font.sans-serif': 'Helvetica',
-'legend.fontsize': 20,
+'legend.fontsize': 17,
 'xtick.labelsize': 20,
 'ytick.labelsize': 20,
 'lines.linewidth': 2,
@@ -34,33 +33,35 @@ plt.ion()
 tau = 0
 F = 10.0
 S = 1
-today = '130418'
+#today = '130418'
+today = '130727'
 
 f=default_params['f']
 
 #varied mu; initialize parameters
+simMu =1e-4
 runname = 'varmu'
-mulist = [1e-4, 1e-5, 1e-6]
+mulist = [1e-6, 1e-5, 1e-4, 1e-3]
 N=default_params['N']
 simN=default_params['N']
 r=default_params['r']
-numruns = 100
+numruns = 50
 
 #LOAD DATA
 fitnesses_mu = np.zeros([len(mulist), numruns, len(f)])
-dirname = 'figures/' + today + '_varmu_logN'+ str(np.log10(N))  + '_tau_' + str(tau) + '_prior_F_'+str(F)+'_S_'+str(S)
+dirname = 'figures/' + today + '_varmu_logN'+ str(np.log10(N)) +'_simMu_'+str(simMu) + '_tau_' + str(tau) + '_prior_F_'+str(F)+'_S_'+str(S)
 for i in range(len(mulist)):
     for k in range(numruns):
         fitnesses_mu[i,k,:] = pickle.load(open(dirname + '/logN_' + str(int(np.log10(N))) + '_logmu_' + str(int(np.log10(mulist[i]))) + '_r_' + str(r) + '_runno_' + str(k) +'.pickle', 'r'))[0]
 
 
 runname = 'varN'
-mu=default_params['mu']
+mu=simMu
 r=default_params['r']
 Nlist = [1e5, 1e6, 1e7,1e8]
 #LOAD DATA
 fitnesses_N = np.zeros([len(Nlist), numruns, 5])
-dirname = 'figures/' + today + '_varN_tau_' + str(tau) + '_prior_F_'+str(F)+'_S_'+str(S)
+dirname = 'figures/' + today + '_varN_simMu_'+str(simMu)+'_tau_' + str(tau) + '_prior_F_'+str(F)+'_S_'+str(S)
 for j in range(len(Nlist)):
     for k in range(numruns):
         fitnesses_N[j,k,:] = pickle.load(open(dirname + '/logN_' + str(int(np.log10(Nlist[j]))) + '_logmu_' + str(int(np.log10(mu))) + '_r_' + str(r) + '_runno_' + str(k) +'.pickle', 'r'))[0]
@@ -68,12 +69,12 @@ for j in range(len(Nlist)):
 
 #LOAD DATA
 runname = 'varr'
-mu=default_params['mu']
+mu=simMu
 N=default_params['N']
 rlist = [0.0, 0.001, 0.01, 0.1]
 
 fitnesses_r = np.zeros([len(rlist), numruns, 5])
-dirname = 'figures/' + today + '_varr_logN'+ str(np.log10(N))+'_tau_' + str(tau) + '_prior_F_'+str(F)+'_S_'+str(S)
+dirname = 'figures/' + today + '_varr_logN'+ str(np.log10(N))+'_simMu_'+str(simMu)+'_tau_' + str(tau) + '_prior_F_'+str(F)+'_S_'+str(S)
 for j in range(len(rlist)):
     for k in range(numruns):
         fitnesses_r[j,k,:] = pickle.load(open(dirname + '/logN_' + str(int(np.log10(N))) + '_logmu_' + str(int(np.log10(mu))) + '_r_' + str(rlist[j]) + '_runno_' + str(k) +'.pickle', 'r'))[0]
@@ -147,71 +148,77 @@ xloc = maxloc = plt.MultipleLocator(1)
 ax.xaxis.set_major_locator(xloc)
 plt.axhline(y=1, color='k', ls='--')
 
-fig.text(0.13,0.86,'A', fontsize=32)
-fig.text(0.42,0.86,'B', fontsize=32)
-fig.text(0.7,0.86,'C', fontsize=32)
+if simMu==1e-5:
+    fig.text(0.13,0.86,'A', fontsize=32)
+    fig.text(0.42,0.86,'B', fontsize=32)
+    fig.text(0.7,0.86,'C', fontsize=32)
+elif simMu==1e-4:
+    fig.text(0.13,0.86,'D', fontsize=32)
+    fig.text(0.41,0.86,'E', fontsize=32)
+    fig.text(0.7,0.86,'F', fontsize=32)
 
 plt.show()
-plt.savefig('figures/model_variation_logN_' + str(int(np.log10(N))) + '_tau_'+str(tau)+'_F_'+str(F)+'_S_'+str(S)+'.pdf')
-plt.savefig('figures/model_variation_logN_' + str(int(np.log10(N))) + '_tau_'+str(tau)+'_F_'+str(F)+'_S_'+str(S)+'.svg')
+plt.savefig('figures/model_variation_logN_' + str(int(np.log10(N))) +'_mu_'+str(simMu)+ '_tau_'+str(tau)+'_F_'+str(F)+'_S_'+str(S)+'.pdf')
+plt.savefig('figures/model_variation_logN_' + str(int(np.log10(N))) +'_mu_'+str(simMu)+ '_tau_'+str(tau)+'_F_'+str(F)+'_S_'+str(S)+'.svg')
 
 
-#PLOT HISTOGRAMS
-bins = np.linspace(0,.8,81)
-for i,mu in enumerate(mulist):
-    plt.figure()
-    plt.title('mutation rate $10^{' + str(int(np.log10(mu))) + '}$, $N = 10^' + str(int(np.log10(N))) + '$, $S = ' + str(S) + '$, $F = ' + str(F) + '$')
-    for l in xrange(len(f)):
-        y,x=np.histogram(fitnesses_mu[i,:,l], bins, normed='True')
-        xbins = 0.5*(x[1:]+x[:-1])
-        plt.plot(xbins,y, ls='-', c=col[l+1])
-        plt.plot([f[l],f[l]], [0,15], lw=2, c=col[l+1])
-    ax=plt.gca()
-    ax.set_xlim([0,.8])
-    plt.xlabel('escape rate')
-    plt.ylabel('frequency')
-    plt.savefig('figures/model_variation_mu_logN_' + str(int(np.log10(N))) + '_logmu_'+str(int(np.log10(mu)))+'_histogram.pdf') 
-    plt.savefig('figures/model_variation_mu_logN_' + str(int(np.log10(N))) + '_logmu_'+str(int(np.log10(mu)))+'_histogram.svg')
-    plt.close()
+if False:
+    #PLOT HISTOGRAMS
+    bins = np.linspace(0,.8,81)
+    for i,mu in enumerate(mulist):
+        plt.figure()
+        plt.title('mutation rate $10^{' + str(int(np.log10(mu))) + '}$, $N = 10^' + str(int(np.log10(N))) + '$, $S = ' + str(S) + '$, $F = ' + str(F) + '$')
+        for l in xrange(len(f)):
+            y,x=np.histogram(fitnesses_mu[i,:,l], bins, normed='True')
+            xbins = 0.5*(x[1:]+x[:-1])
+            plt.plot(xbins,y, ls='-', c=col[l+1])
+            plt.plot([f[l],f[l]], [0,15], lw=2, c=col[l+1])
+        ax=plt.gca()
+        ax.set_xlim([0,.8])
+        plt.xlabel('escape rate')
+        plt.ylabel('frequency')
+        plt.savefig('figures/model_variation_mu_logN_' + str(int(np.log10(N))) +'_mu_'+str(simMu)+ '_logmu_'+str(int(np.log10(mu)))+'_histogram.pdf') 
+        plt.savefig('figures/model_variation_mu_logN_' + str(int(np.log10(N))) +'_mu_'+str(simMu)+ '_logmu_'+str(int(np.log10(mu)))+'_histogram.svg')
+        plt.close()
 
 
-###################################################################
-#PLOT VARIATON WITH WRONG ASSUMPTIONS ABOUT THE POPULATION SIZE
-###################################################################
+    ###################################################################
+    #PLOT VARIATON WITH WRONG ASSUMPTIONS ABOUT THE POPULATION SIZE
+    ###################################################################
 
-bins = np.linspace(0,.6,51)
-for i,N in enumerate(Nlist):
-    plt.figure()
-    plt.title('est. pop. size $10^{' + str(int(np.log10(N))) + '}$, $N = 10^{' + str(int(np.log10(simN))) + '}$, $S = ' + str(S) + '$, $F = ' + str(F) + '$')
-    for l in xrange(len(f)):
-        y,x=np.histogram(fitnesses_N[i,:,l], bins, normed='True')
-        xbins = 0.5*(x[1:]+x[:-1])
-        plt.plot(xbins,y, ls='-', c=col[l+1])
-        plt.plot([f[l],f[l]], [0,25], lw=2, c=col[l+1])
-    ax=plt.gca()
-    ax.set_xlim([0,.6])
-    plt.xlabel('escape rate')
-    plt.ylabel('frequency')
-    plt.savefig('figures/model_variation_N_logN_6_modelN_'+str(int(np.log10(N)))+'_histogram.pdf')
+    bins = np.linspace(0,.6,51)
+    for i,N in enumerate(Nlist):
+        plt.figure()
+        plt.title('est. pop. size $10^{' + str(int(np.log10(N))) + '}$, $N = 10^{' + str(int(np.log10(simN))) + '}$, $S = ' + str(S) + '$, $F = ' + str(F) + '$')
+        for l in xrange(len(f)):
+            y,x=np.histogram(fitnesses_N[i,:,l], bins, normed='True')
+            xbins = 0.5*(x[1:]+x[:-1])
+            plt.plot(xbins,y, ls='-', c=col[l+1])
+            plt.plot([f[l],f[l]], [0,25], lw=2, c=col[l+1])
+        ax=plt.gca()
+        ax.set_xlim([0,.6])
+        plt.xlabel('escape rate')
+        plt.ylabel('frequency')
+        plt.savefig('figures/model_variation_N_logN_6_modelN_'+str(int(np.log10(N)))+'_mu_'+str(simMu)+'_histogram.pdf')
 
 
 
-###################################################################
-#PLOT VARIATON WITH WRONG ASSUMPTIONS ABOUT THE POPULATION SIZE
-###################################################################
+    ###################################################################
+    #PLOT VARIATON WITH WRONG ASSUMPTIONS ABOUT THE POPULATION SIZE
+    ###################################################################
 
-bins = np.linspace(0,.6,51)
-for i,r in enumerate(rlist):
-    plt.figure()
-    plt.title('recombination rate $' + str(rlist[i]) + '$, $N = 10^' + str(int(np.log10(N))) + '$, $S = ' + str(S) + '$, $F = ' + str(F) + '$')
-    for l in xrange(len(f)):
-        y,x=np.histogram(fitnesses_r[i,:,l], bins, normed='True')
-        xbins = 0.5*(x[1:]+x[:-1])
-        plt.plot(xbins,y, ls='-', c=col[l+1])
-        plt.plot([f[l],f[l]], [0,25], lw=2, c=col[l+1])
-    ax=plt.gca()
-    ax.set_xlim([0,.6])
-    plt.xlabel('escape rate')
-    plt.ylabel('frequency')
-    plt.savefig('figures/model_variation_r_logN_' + str(int(np.log10(N))) + '_r_'+str(r)+'_histogram.pdf')
-    plt.close()
+    bins = np.linspace(0,.6,51)
+    for i,r in enumerate(rlist):
+        plt.figure()
+        plt.title('recombination rate $' + str(rlist[i]) + '$, $N = 10^' + str(int(np.log10(N))) + '$, $S = ' + str(S) + '$, $F = ' + str(F) + '$')
+        for l in xrange(len(f)):
+            y,x=np.histogram(fitnesses_r[i,:,l], bins, normed='True')
+            xbins = 0.5*(x[1:]+x[:-1])
+            plt.plot(xbins,y, ls='-', c=col[l+1])
+            plt.plot([f[l],f[l]], [0,25], lw=2, c=col[l+1])
+        ax=plt.gca()
+        ax.set_xlim([0,.6])
+        plt.xlabel('escape rate')
+        plt.ylabel('frequency')
+        plt.savefig('figures/model_variation_r_logN_' + str(int(np.log10(N))) +'_mu_'+str(simMu)+ '_r_'+str(r)+'_histogram.pdf')
+        plt.close()

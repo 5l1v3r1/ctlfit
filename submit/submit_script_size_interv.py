@@ -14,16 +14,18 @@ import subprocess as sp
 maxjobs = 100
 
 #varied size
-sizelist = [10,20,50,100]
+sizelist = [5, 10,20,50,100]
 taulist = [0]
 Nlist = [1e7]
+simMu=1e-5
+mu=simMu
 F=10.0
 T=''
 for N in Nlist:
     for size in sizelist:
         for tau in taulist:
             for jobno in range(maxjobs):
-                call = 'qsub  -l h_rt=00:10:59 -cwd submit/simple_wrap.py --size ' + str(size) + ' --simN ' + str(N) + ' --N ' + str(N) +\
+                call = 'qsub  -l h_rt=00:10:59 -cwd submit/simple_wrap.py --size ' + str(size) + ' --simN ' + str(N) + ' --N ' + str(N) +' --simMu '+str(simMu)+' --mu '+str(mu)+\
                     ' --tau ' + str(tau) +' --F ' + str(F) + ' --runno ' + str(jobno) + ' --runname varsize_'+T+'logN' + str(np.log10(N)) + '_size_' + str(size)
                 print call
                 os.system(call)
@@ -39,7 +41,7 @@ for N in Nlist:
     for freq in freqlist:
         for tau in taulist:
             for jobno in range(maxjobs):
-                call = 'qsub -l h_rt=00:10:59 -cwd submit/simple_wrap.py --interv ' + str(freq) + ' --simN ' + str(N) + ' --N ' + str(N) +\
+                call = 'qsub -l h_rt=00:10:59 -cwd submit/simple_wrap.py --interv ' + str(freq) + ' --simN ' + str(N) + ' --N ' + str(N) +' --simMu '+str(simMu)+' --mu '+str(mu)+\
                     ' --tau ' + str(tau)+' --F ' + str(F) + ' --runno ' + str(jobno) + ' --runname varfreq_'+T+'logN' + str(np.log10(N)) + '_freq_' + str(freq) + '_size_'+str(ssize)
                 os.system(call)
 #                call = call.split(' ')

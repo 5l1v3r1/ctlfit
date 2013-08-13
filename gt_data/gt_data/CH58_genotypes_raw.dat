@@ -1,0 +1,70 @@
+0	env578	ALERYLRDQQLL	1
+
+9	env578	wildtype	5
+9	env578	ALERHLRDQQLL	1
+9	env578	ALERYLGDQQLL	1
+9	env578	all mutants	2
+
+45	env578	wildtype	1
+45	env578	ALERHLRDQQLL	3
+45	env578	ALERYLSDQQLL	2
+45	env578	ALERYLKDQQLL	1
+45	env578	ALERYLGDQQLL	2
+45	env578	all mutants	8
+
+85	env578	wildtype	1
+85	env578	ALERHLRDQQLL	3
+85	env578	ALERYLSDQQLL	1
+85	env578	ALERYLKDQQLL	3
+85	env578	ALERYLGDQQLL	1
+85	env578	all mutants	8
+
+0	env829	LQRFIRAVLHIP	1
+
+9	env829	wildtype	7
+9	env829	all mutants	0
+
+45	env829	LQRFIRTVLHIP	2
+45	env829	wildtype	1
+45	env829	LQRFIRAILHIP	2
+45	env829	LQRFMRAVLHIP	1
+45	env829	LQRVIRAVLHIP	3
+45	env829	all mutants	8
+
+85	env829	LQRFIRAILHIP	4
+85	env829	LQRSIRAVLHIP	1
+85	env829	LQRLIRAVLHIP	2
+85	env829	LQRVIRAVLHIP	1
+85	env829	LQRFLRAVLHIP	1
+85	env829	all mutants	9
+
+0	nef112	HSQKRQDILDLW	1
+
+9	nef112	wildtype	7
+9	nef112	all mutants	0
+
+45	nef112	HSQKRQEILDLW	2
+45	nef112	wildtype	6
+45	nef112	HSQRRQDILDLW	1
+45	nef112	all mutants	3
+
+85	nef112	HSQKRQEILDLW	5
+85	nef112	wildtype	1
+85	nef112	HSQRRQDILDLW	3
+85	nef112	all mutants	8
+
+0	gag246	GSTSTLQEQIGW	1
+
+9	gag246	wildtype	7
+9	gag246	all mutants	0
+
+45	gag246	GSTSNLQEQIGW	1
+45	gag246	GSTSTLQEQIEW	1
+45	gag246	wildtype	7
+45	gag246	all mutants	2
+
+85	gag246	GSTSNLQEQIGW	2
+85	gag246	wildtype	1
+85	gag246	GSTSTLQEQIEW	6
+85	gag246	all mutants	8
+

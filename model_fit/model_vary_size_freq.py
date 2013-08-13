@@ -18,6 +18,7 @@ from ctlutils import params as default_params
 import cPickle as pickle
 from time import strftime
 
+
 params = {'backend': 'ps',  
           'axes.labelsize': 24, 
           'axes.titlesize': 24,
@@ -30,23 +31,27 @@ params = {'backend': 'ps',
 'text.usetex': True}
 plt.rcParams.update(params)
 
+
+
 plt.ion()
 #initialize global parameters
 S=1
 F=10.0
 
 N=default_params['N']
-mu=default_params['mu']
+#mu=default_params['mu']
+simMu=1e-4
+mu=simMu
 r=default_params['r']
 f=default_params['f']
 sample_size = default_params['sample_size']
 tau=0
-today = '130418'
-
+#today = '130418'
+today = '130727'
 
 
 #varied sample size; initialize parameters
-sizelist = [10,20,50,100]
+sizelist = [5, 10,20,50,100]
 freqlist = [5, 10, 20, 40, 70, 100]
 numruns = 100
 #####################################################################
@@ -60,12 +65,12 @@ fitnesses_size_2p = np.zeros([len(sizelist), numruns, len(f)])
 fitnesses_freq_2p = np.zeros([len(freqlist), numruns, len(f)])
 
 for i in range(len(sizelist)):
-    dirname = today + '_varsize_'+T+'logN' + str(np.log10(N)) + '_size_' + str(sizelist[i]) + '_tau_' + str(tau) + '_prior_F_'+str(F)+'_S_'+str(S)
+    dirname = today + '_varsize_'+T+'logN' + str(np.log10(N)) + '_size_' + str(sizelist[i]) +'_simMu_'+str(simMu)+ '_tau_' + str(tau) + '_prior_F_'+str(F)+'_S_'+str(S)
     for k in range(numruns):
         fitnesses_size[i,k,:],fitnesses_size_2p[i,k,:] = pickle.load(open('figures/' + dirname + '/logN_' + str(int(np.log10(N))) + '_logmu_' + str(int(np.log10(mu))) + '_r_'+str(r)+'_runno_' + str(k) +'.pickle', 'r'))[0::2]
 
 for i in range(len(freqlist)):
-    dirname = today + '_varfreq_'+T+'logN' + str(np.log10(N)) + '_freq_' + str(freqlist[i]) + '_size_'+str(sample_size)+'_tau_' + str(tau) + '_prior_F_'+str(F)+'_S_'+str(S)
+    dirname = today + '_varfreq_'+T+'logN' + str(np.log10(N)) + '_freq_' + str(freqlist[i]) + '_size_'+str(sample_size) +'_simMu_'+str(simMu)+'_tau_' + str(tau) + '_prior_F_'+str(F)+'_S_'+str(S)
     for k in range(numruns):
         fitnesses_freq[i,k,:],fitnesses_freq_2p[i,k,:] = pickle.load(open('figures/' + dirname + '/logN_' + str(int(np.log10(N))) + '_logmu_' + str(int(np.log10(mu))) + '_r_'+str(0.0)+'_runno_' + str(k) +'.pickle', 'r'))[0::2]
 
@@ -116,14 +121,14 @@ for M in ['multi', '2p']:
     plt.axhline(y=1, color='k', ls='--')
     
     plt.subplot(1,2,1)
-    plt.legend(loc=3,ncol=2, columnspacing=0.2, handletextpad=0.2)
+    plt.legend(loc=1,ncol=2, columnspacing=0.2, handletextpad=0.2)
     
     plt.show()
     if M=='multi': 
-        plt.savefig('figures/model_sampling_variation_'+T+'ML_logN_' + str(int(np.log10(N))) + '_F_'+str(int(F))+'_S_'+str(S)+'.pdf')
-        plt.savefig('figures/model_sampling_variation_'+T+'ML_logN_' + str(int(np.log10(N))) + '_F_'+str(int(F))+'_S_'+str(S)+'.svg')
+        plt.savefig('figures/model_sampling_variation_'+T+'ML_logN_' + str(int(np.log10(N))) +'_simMu_'+str(simMu)+ '_F_'+str(int(F))+'_S_'+str(S)+'.pdf')
+        plt.savefig('figures/model_sampling_variation_'+T+'ML_logN_' + str(int(np.log10(N))) +'_simMu_'+str(simMu)+ '_F_'+str(int(F))+'_S_'+str(S)+'.svg')
     elif M=='2p':
-        plt.savefig('figures/model_sampling_variation_'+T+'2p_logN_' + str(int(np.log10(N))) + '_F_'+str(int(F))+'.pdf')
+        plt.savefig('figures/model_sampling_variation_'+T+'2p_logN_' + str(int(np.log10(N))) +'_simMu_'+str(simMu)+ '_F_'+str(int(F))+'.pdf')
 
 
 
@@ -133,7 +138,7 @@ for M in ['multi', '2p']:
 #####################################################################
 
 
-if True:
+if False:
     bins = np.linspace(0,.6,51)
     for M in ['multi', '2p']:
         fig = plt.figure(figsize=(8,5))
@@ -158,10 +163,10 @@ if True:
             plt.xlabel('escape rate')
             plt.ylabel('frequency')
             if M=='multi': 
-                plt.savefig('figures/model_variation_size_ML_logN_' + str(int(np.log10(N))) + '_size_'+str(size)+'_histogram.pdf')
-                plt.savefig('figures/model_variation_size_ML_logN_' + str(int(np.log10(N))) + '_size_'+str(size)+'_histogram.svg')
+                plt.savefig('figures/model_variation_size_ML_logN_' + str(int(np.log10(N))) +'_simMu_'+str(simMu)+ '_size_'+str(size)+'_histogram.pdf')
+                plt.savefig('figures/model_variation_size_ML_logN_' + str(int(np.log10(N))) +'_simMu_'+str(simMu)+ '_size_'+str(size)+'_histogram.svg')
             elif M=='2p':
-                plt.savefig('figures/model_variation_size_2p_logN_' + str(int(np.log10(N))) + '_size_'+str(size)+'_histogram.pdf')
+                plt.savefig('figures/model_variation_size_2p_logN_' + str(int(np.log10(N))) +'_simMu_'+str(simMu)+ '_size_'+str(size)+'_histogram.pdf')
 
             plt.close()
 
@@ -182,8 +187,8 @@ if True:
             plt.xlabel('escape rate')
             plt.ylabel('frequency')
             if M=='multi': 
-                plt.savefig('figures/model_variation_freq_ML_logN_' + str(int(np.log10(N))) + '_freq_' + str(sfreq) + '_size_'+str(size)+'_histogram.pdf')
-                plt.savefig('figures/model_variation_freq_ML_logN_' + str(int(np.log10(N))) + '_freq_' + str(sfreq) + '_size_'+str(size)+'_histogram.svg')
+                plt.savefig('figures/model_variation_freq_ML_logN_' + str(int(np.log10(N))) + '_freq_' + str(sfreq) +'_simMu_'+str(simMu)+ '_size_'+str(size)+'_histogram.pdf')
+                plt.savefig('figures/model_variation_freq_ML_logN_' + str(int(np.log10(N))) + '_freq_' + str(sfreq) +'_simMu_'+str(simMu)+ '_size_'+str(size)+'_histogram.svg')
             elif M=='2p':
-                plt.savefig('figures/model_variation_freq_2p_logN_' + str(int(np.log10(N))) + '_freq_' + str(sfreq) + '_size_'+str(size)+'_histogram.pdf')
+                plt.savefig('figures/model_variation_freq_2p_logN_' + str(int(np.log10(N))) + '_freq_' + str(sfreq) +'_simMu_'+str(simMu)+ '_size_'+str(size)+'_histogram.pdf')
                 plt.close()

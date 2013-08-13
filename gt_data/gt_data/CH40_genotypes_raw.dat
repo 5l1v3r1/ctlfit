@@ -1,0 +1,104 @@
+0	nef191	DSSLAFRHVARE	1
+
+16	nef191	wildtype	4
+16	nef191	DSRLAFRHVARE	2
+16	nef191	DSSLAFHHVARE	3
+16	nef191	all mutants	5
+
+45	nef191	DSNLAFRHVARE	2
+45	nef191	DSSLAFRHVAQE	11
+45	nef191	DSSLAFHHVARE	1
+45	nef191	all mutants	14
+
+111	nef191	DSNLAFRHVARE	1
+111	nef191	DSSLAFRHVAQE	4
+111	nef191	DSSLAFHHVARE	4
+111	nef191	all mutants	9
+
+181	nef191	DSSLAFRHVAQE	7
+181	nef191	all mutants	7
+
+0	gag125	ADTGNSN---QV	1
+
+16	gag125	wildtype	13
+16	gag125	all mutants	0
+
+45	gag125	DDTGNSN---QV	12
+45	gag125	all mutants	12
+
+111	gag125	ADTGNSN---QG	2
+111	gag125	DDTGNSN---QV	6
+111	gag125	all mutants	8
+
+181	gag125	ADTGNSN---QG	1
+181	gag125	DDTGNSN---QV	10
+181	gag125	all mutants	11
+
+0	gag405	KEGHIARNCRAP	1
+
+16	gag405	wildtype	13
+16	gag405	all mutants	0
+
+45	gag405	KEGHIAKNCRAP	12
+45	gag405	all mutants	12
+
+111	gag405	KEGHIAKNCRAP	6
+111	gag405	KEGHLARNCRAP	2
+111	gag405	all mutants	8
+
+181	gag405	KEGHIAKNCRAP	9
+181	gag405	KEGHLARNCRAP	2
+181	gag405	all mutants	11
+
+0	vpr84	SRIGISQRRRAR	1
+
+16	vpr84	wildtype	9
+16	vpr84	all mutants	0
+
+45	vpr84	SRIGIRHRRRAR	1
+45	vpr84	SRIGIRQRRRAR	11
+45	vpr84	SRIGIGQRRRAR	2
+45	vpr84	all mutants	14
+
+111	vpr84	SRIGIRQRRRAR	4
+111	vpr84	SRIGIGQRRRAR	5
+111	vpr84	all mutants	9
+
+181	vpr84	SRIGIRQRRRAR	7
+181	vpr84	all mutants	7
+
+0	vif167	PLPSVTKLTEDR	1
+
+16	vif167	wildtype	9
+16	vif167	all mutants	0
+
+45	vif167	wildtype	1
+45	vif167	PLPSVIKLTEDR	13
+45	vif167	all mutants	13
+
+111	vif167	wildtype	3
+111	vif167	PLPSVIKLTEDR	6
+111	vif167	all mutants	6
+
+181	vif167	PLPSVIKLTEDR	7
+181	vif167	all mutants	7
+
+0	env145	TNSNGEMMEKGE	1
+
+16	env145	wildtype	9
+16	env145	all mutants	0
+
+45	env145	wildtype	14
+45	env145	all mutants	0
+
+111	env145	TNSNGKMMEKGE	6
+111	env145	TNS--KMMEKGE	1
+111	env145	TNSNGGMMEKGE	1
+111	env145	TNSNEEMMEKGE	1
+111	env145	all mutants	9
+
+181	env145	TNSKGEMMEKGE	1
+181	env145	TNSNGTIMEKGE	1
+181	env145	TNSNGGMMEKGE	5
+181	env145	all mutants	7
+

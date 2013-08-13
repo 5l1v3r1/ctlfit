@@ -117,11 +117,11 @@ ctl.initial_guesses_one_parameter_ST()
 uptolocus=L-1
 ctl.multi_locus_fit(5)
 ctl.likelihood_c(uptolocus, 1, 1)
-fig = plt.figure(figsize = (8,8))
+fig = plt.figure(figsize = (7,7))
 margins = [0.18, 0.14, 0.77, 0.8]
 axes = plt.Axes(fig, margins) 
 fig.add_axes(axes)
-plt.title(r'$N=10^{'+str(int(np.log10(N)))+'}$, $r='+str(r)+r'$, $\mu=10^{'+str(int(np.log10(mu)))+'}$')
+#plt.title(r'$N=10^{'+str(int(np.log10(N)))+'}$, $r='+str(r)+r'$, $\mu=10^{'+str(int(np.log10(mu)))+'}$')
 model_traj=np.loadtxt('src/temp_test/traj.dat')
 LH=np.loadtxt('src/temp_test/data.dat')
 for locus in xrange(uptolocus+1):

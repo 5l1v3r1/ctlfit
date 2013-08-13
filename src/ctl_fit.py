@@ -360,7 +360,8 @@ class ctl_fit:
         dtau=1
         self.MCMC_fitness = []
         self.MCMC_seedtimes = []
-         
+        self.MCMC_LH = []
+
         #consecutively lower the step sizes 
         old_LH = self.likelihood_c(self.L, 0, 0)
         uptolocus=self.L
@@ -389,6 +390,7 @@ class ctl_fit:
             if cycle%dn==0:
                 self.MCMC_fitness.append(np.array(self.fitness))
                 self.MCMC_seedtimes.append(np.array(self.seedtimes))
+                self.MCMC_LH.append(old_LH)
                 print cycle, self.fitness, self.seedtimes, old_LH
         
     def multi_locus_fit(self,n_iter=5, printout=0, dataout=0):

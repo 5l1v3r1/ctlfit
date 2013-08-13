@@ -23,6 +23,7 @@ parser = argparse.ArgumentParser(description="Fit sequential sweeps to genotype 
 parser.add_argument('--simN', default=default_params['N'], type=float, help='simulated population size (N)')
 parser.add_argument('--N', default=default_params['N'], type=float, help='Population size (N)')
 parser.add_argument('--mu', default=default_params['mu'],type=float, help='Mutation rate u')
+parser.add_argument('--simMu', default=default_params['mu'],type=float, help='simulated mutation rate u')
 parser.add_argument('--size', default = default_params['sample_size'], type=float, help = 'sample size')
 parser.add_argument('--interv', default = 0, type=float, help = 'recombination rate r')
 parser.add_argument('--r', default = default_params['r'], type=float, help = 'recombination rate r')
@@ -37,6 +38,7 @@ simN = params.simN
 N = params.N
 r = params.r
 mu = params.mu
+simMu = params.simMu
 tau = params.tau
 runno = params.runno
 runname = params.runname
@@ -55,7 +57,7 @@ tp[1:]+=tau
 tp = list(tp)
 
 today = strftime('%y%m%d')
-dirname = 'figures/' + today + '_' + runname + '_tau_' + str(tau) + '_prior_F_'+str(F)+'_S_'+str(S)
+dirname = 'figures/' + today + '_' + runname + '_simMu_'+str(simMu)+'_tau_' + str(tau) + '_prior_F_'+str(F)+'_S_'+str(S)
 try:
     #os.stat(dirname)
     os.makedirs(dirname)
@@ -63,8 +65,7 @@ except OSError, e:
     if e.errno != errno.EEXIST:
         raise
 
-
-gt, gt_traj, pop = test_data(simN,1e-5,r,f,tp,sample_size)
+gt, gt_traj, pop = test_data(simN,simMu,r,f,tp,sample_size)
 ctl = ctl_fit.ctl_fit()
 ctl.setup(N,mu,gt,tp,sample_size*np.ones_like(gt),F,S, runname + '_logN_' + str(int(np.log10(N))) + '_logmu_' + str(int(np.log10(mu))) + '_r_' + str(r) + '_runno_' + str(runno))
 

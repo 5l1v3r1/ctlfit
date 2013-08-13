@@ -1,4 +1,3 @@
-
 SWIG=swig
 CC=g++
 libraries = -lpython2.7
@@ -9,11 +8,19 @@ ifeq ($(hostname),rneher-iMac)
 	pythonpath := /usr/local/EPD/include/python2.7/
 	numpypath := /usr/local/EPD/lib/python2.7/site-packages/numpy/core/include/
 	LFLAGS = -L/usr/local/EPD/lib/python2.7/config   -lpython2.7 -O2 -shared
+	SWIG = /usr/bin/swig
 else
 	#CLUSTER
 	pythonpath := /ebio/ag-neher/share/epd_free-7.1-2-rh5-x86_64/include/python2.7/
 	numpypath := /ebio/ag-neher/share/epd_free-7.1-2-rh5-x86_64/lib/python2.7/site-packages/numpy/core/include/
 	LFLAGS = -L/ebio/ag-neher/share/epd_free-7.1-2-rh5-x86_64/lib/python2.7/config -L/ebio/ag-neher/share/programs/lib  -lpython2.7 -O2 -shared
+endif
+
+ifeq ($(hostname),ag-neher-xps13)
+	#RICHARD_laptop
+	pythonpath := /usr/local/EPD/include/python2.7/
+	numpypath := /usr/local/EPD/lib/python2.7/site-packages/numpy/core/include/
+	LFLAGS = -L/usr/local/EPD/lib/python2.7/config   -lpython2.7 -O2 -shared
 endif
 
 #RICHARD
@@ -52,6 +59,8 @@ $(OBJECTS) $(SWIG_OBJECT) : $(HEADERS) $(SOURCES) $(SWIG_SOURCE)
 	$(CC) $(CFLAGS) $(HEADERS) $(SOURCES) $(SWIG_SOURCE)
 
 $(SWIG_SOURCE): $(SWIG_INTERFACE) $(SOURCES) $(HEADERS)
+	echo $(hostname)
+	echo $(pythonpath)
 	$(SWIG) -c++ -module cfit -o $(SWIG_SOURCE)  -python $(SWIG_INTERFACE)
 
 

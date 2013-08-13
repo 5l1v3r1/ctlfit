@@ -1,0 +1,4 @@
+This folder contains the posterior distribution of a MCMC chain after regular CTL fitting. At low mutation, some initial parameter values were in implausible regions and the MCMC chain never found a suitable local optimum to explore. Those few values were restarted by hand without the regular CTL fitting. some required multiple tries until a suitable initial config was found.
+
+
+

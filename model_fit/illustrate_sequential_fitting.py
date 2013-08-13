@@ -33,6 +33,9 @@ plt.rcParams.update(params)
 #marker size
 ms=15
 
+# switch to activate figure saving
+savefigs = False
+
 def get_yticks(vals):
     n=len(vals)
     if max(vals)-min(vals) < 0.15:
@@ -79,7 +82,8 @@ plt.ion()
 
 #set up parameters
 N = default_params['N']                        # Population size
-mu = default_params['mu']                        # Mutation rate
+#mu = default_params['mu']                        # Mutation rate
+mu=1e-4
 r = default_params['r'] 
 f =default_params['f']        # Fitness (main/additive effects)
 sample_size=default_params['sample_size'] 
@@ -142,7 +146,7 @@ for locus in xrange(uptolocus):
 
 ax.set_ylabel(r'escape rate ($\textrm{day}^{-1}$)')
 ax.set_xlabel(r'seed times ($\textrm{day}$)')
-plt.savefig('figures/sequential_LH_initial.pdf')
+if savefigs: plt.savefig('figures/sequential_LH_initial.pdf')
 
 #perform one round of multilocus fitting and save the resultant trajectory.
 ctl.multi_locus_fit()
@@ -169,12 +173,12 @@ plt.show()
 plt.xlabel(r'time ($\textrm{days}$)')
 plt.ylabel('genotype frequencies')
 plt.legend(loc=4)
-plt.savefig('figures/sequential_traj.pdf')
-plt.savefig('figures/sequential_traj.svg')
+if savefigs: plt.savefig('figures/sequential_traj.pdf')
+if savefigs: plt.savefig('figures/sequential_traj.svg')
 plt.ylim([1.0/N, 2])
 ax.set_yscale('log')
-plt.savefig('figures/sequential_traj_log.pdf')
-plt.savefig('figures/sequential_traj_log.svg')
+if savefigs: plt.savefig('figures/sequential_traj_log.pdf')
+if savefigs: plt.savefig('figures/sequential_traj_log.svg')
 
 
 #perform additional rounds of multilocus fitting
@@ -196,15 +200,15 @@ plt.ylabel('genotype frequencies')
 plt.subplots_adjust(bottom=0.15)
 plt.show()
 plt.legend(loc=4)
-plt.savefig('figures/sequential_traj_refined.pdf')
-plt.savefig('figures/sequential_traj_refined.svg')
+if savefigs: plt.savefig('figures/sequential_traj_refined.pdf')
+if savefigs: plt.savefig('figures/sequential_traj_refined.svg')
 
 plt.ylim([1.0/N, 2])
 fig.text(0.01,0.91,'B', fontsize=32)
 plt.show()
 ax.set_yscale('log')
-plt.savefig('figures/sequential_traj_refined_log.pdf')
-plt.savefig('figures/sequential_traj_refined_log.svg')
+if savefigs: plt.savefig('figures/sequential_traj_refined_log.pdf')
+if savefigs: plt.savefig('figures/sequential_traj_refined_log.svg')
 
 
 ##############################################################################
@@ -247,7 +251,7 @@ ax.set_ylabel(r'escape rate ($\textrm{day}^{-1}$)', labelpad=30)
 ax.set_xlabel(r'seed times ($\textrm{day}$)', labelpad=20)
 fig.text(0.01,0.91,'A', fontsize=32)
 plt.show()
-plt.savefig('figures/sequential_LH_final_refined.pdf')
+if savefigs: plt.savefig('figures/sequential_LH_final_refined.pdf')
 
 ##############################################################################
 # PRODUCE FIGURE WITH TRAJECTORIES AFTER MULTILCOUS FITTING
@@ -268,4 +272,4 @@ plt.subplots_adjust(bottom=0.15)
 plt.show()
 plt.legend(loc=4)
 ctl.ctl_clean()
-plt.savefig('figures/sequential_traj_illustration.pdf')
+if savefigs: plt.savefig('figures/sequential_traj_illustration.pdf')

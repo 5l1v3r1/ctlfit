@@ -47,7 +47,7 @@
 \def\journal{T-Cell Biology}
 \def\DOI{}
 \def\articleType{}
-\def\keyFont{\fontsize{6}{11}\helveticabold }
+\def\keyFont{\fontsize{6}{11}\helveticabold}
 \def\firstAuthorLast{Kessinger {et~al}} %use et al only if is more than 1 author
 \def\Authors{Taylor A.~Kessinger\,$^{1}$, Alan S.~Perelson\,$^{2}$ and
   Richard A.~Neher\,$^{1,*}$}
@@ -58,7 +58,7 @@ $^{2}$Theoretical Biology and Biophysics, Los Alamos National Laboratory, Los Al
 
 \def\corrAuthor{Richard A. Neher}
 \def\corrAddress{Evolutionary Dynamics and Biophysics, Max Planck
-  Institute for Developmental Biology, Spemannstra\ss{}e 35, 72076 T\"ubingen, Germany}
+Institute for Developmental Biology, Spemannstra\ss{}e 35, 72076 T\"ubingen, Germany}
 \def\corrEmail{richard.neher@tuebingen.mpg.de}
 
 % \color{FrontiersBlue} Is the blue color, used in the Journal name, in the title, and the names of the sections
@@ -88,6 +88,7 @@ Cytotoxic T-lymphocytes (CTLs) recognize viral protein fragments displayed by ma
 \end{abstract}
 
 \maketitle
+\section{Introduction}
 During the first few months of HIV infection, the HIV genome typically
 undergoes a series of rapid amino acid substitutions that reduce immune
 pressure by cytotoxic T-lymphocytes (CTLs); this process is referred to as CTL escape
@@ -102,35 +103,42 @@ and the fitness cost. To quantify the role of individual CTL clones in
 controlling the viral population and the fitness costs associated with escape
 mutations, one would like to infer the escape rate associated
 with the individual mutations from serially sampled sequence data 
-\citep{Asquith:2006p28003,ganusov_fitness_2011}.
+\citep{ganusov_fitness_2011,Asquith:2006p28003}.
 
-With a single escape mutation and dense, deeply sampled data, the escape rate
-can simply be estimated by fitting a logistic curve to the time course of the
-mutation's frequency \citep{Asquith:2006p28003,ganusov_fitness_2011}.
-The logistic curve has two parameters: the growth or escape rate and the frequency
-at the initial time point. In many cases, however, the data obtained from
-infected patients are scarce, and estimating two parameters reliably from the data
-is not possible \citep{ganusov_fitness_2011}. Figure \ref{fig:data_example} shows an example
-of such time series sequence data from CTL escape during early HIV infection. Time
-points are far apart and the sampling depth is low. Furthermore, it is not the case that only 
-a single escape mutation is observed; rather,
-several mutations rapidly emerge in different places in the viral genome
-\citep{Goonetilleke:2009p42296,SalazarGonzalez:2009p35091}. Multiple escapes
-imply immune pressure on many epitopes. Since the viral population and its
-mutation rate are large \citep{Perelson:1996p23158,Mansky:1995p38971}, these
-different escape mutations will arise almost simultaneously. Initially, these escape
-mutations exist in the population as single mutant genomes until they are
-combined into multiple mutants by recurrent mutation or recombination
-\citep{ganusov_mathematical_2013,leviyang_computational_2013}. The competition 
-between viral variants
-affects the trajectories of individual escape mutations, so estimating their 
-intrinsic growth rate by
-logistic fitting is not accurate. The degree of competition between genotypes
-depends on the population size, the mutation rate, and the recombination rate in
-HIV populations. The lattermost is rather low
-\citep{Neher:2010p32691,Batorsky:2011p40107}, and it has been shown that
-strong selection, such as selection for drug resistance, affects mutations
-along the entire genome \citep{Nijhuis:1998p44376}.
+With a single escape mutation and dense, deeply sampled data, the escape
+rate can simply be estimated by fitting a logistic curve to the time
+course of the mutation's frequency
+\citep{ganusov_fitness_2011,Asquith:2006p28003}.  The logistic curve has
+two parameters: the growth or escape rate and the frequency at the
+initial time point. In many cases, however, the data obtained from
+infected patients are scarce, and estimating two parameters reliably
+from the data is not possible since one needs at least two time points
+at which the mutation is at intermediate frequency between 0 and 1
+\citep{ganusov_fitness_2011}. Figure \ref{fig:data_example} shows an
+example of such time series sequence data from CTL escape during early
+HIV infection. Time points are far apart and the sampling depth is
+low. Furthermore, it is not the case that only a single escape mutation
+is observed; rather, several mutations rapidly emerge in different
+places in the viral genome
+\citep{Goonetilleke:2009p42296,SalazarGonzalez:2009p35091}. Multiple
+escapes imply immune pressure on many epitopes. Since the viral
+population and its mutation rate are large
+\citep{Perelson:1996p23158,Mansky:1995p38971}, these different escape
+mutations will arise almost simultaneously. Initially, these escape
+mutations exist in the population as single mutant genomes until they
+are combined into multiple mutants by recurrent mutation or
+recombination
+\citep{ganusov_mathematical_2013,leviyang_computational_2013}. The
+competition between viral variants affects the trajectories of
+individual escape mutations, so estimating their intrinsic growth rate
+by logistic fitting is not accurate. This competition is known as
+``clonal interference'' in population genetics. The degree of competition between
+genotypes depends on the population size, the mutation rate, and the
+recombination rate in HIV populations. The latter-most is rather low
+\citep{Neher:2010p32691,Batorsky:2011p40107}, and two strongly selected
+mutations in a large populations are more likely combined by additional
+de novo mutation than recombination with another rare single mutation.
+
 
 Here, we develop a strategy for inference that allows one to obtain robust escape 
 rate estimates
@@ -139,28 +147,46 @@ explicit modeling of the process of mutation accumulation in the founder
 sequence. Thereby, we exploit constraints imposed by the underlying dynamics of
 mutation and selection in the high dimensional space of possible genotypes.
 
-Despite the large number of possible genomes that can be formed from different
-combinations of escape mutations, we typically observe one or two dominant
-genotypes at a time. Furthermore, these genotypes dominate only transiently and are
-quickly displaced by genotypes with an even greater number of escape mutations;
-see \FIG{data_example}. Given a data set, it is typically straightforward to
+Despite the large number of possible genomes that can be formed from
+different combinations of escape mutations, we typically observe one or
+two dominant genotypes at a time -- at least during the first few month
+of the infection. Furthermore, these genotypes dominate only transiently
+and are quickly displaced by genotypes with an even greater number of
+escape mutations; see \FIG{data_example}. 
+These observations agree with results from
+ref.~\citep{silva_dynamics_2012}, where a model of acute HIV infection
+was used to show that strongly selected escape mutations fix sequentially. 
+Note that we don't assume a
+particular sequence of dominant genotypes a priori. Instead, we observe a
+sequence of dominant genotypes and try to infer the evolutionary
+scenario that most likely gave rise to this sequence of genotypes. While
+we model only these genotypes, many minor variants certainly exist. But
+only those dominant variants that are likely to give rise to the future
+populations need to be modeled accurately. Later in infection, the viral
+population is very diverse and cannot be analyzed using our method.
+
+Given a data set from early infection, it is typically straightforward to
 define a series of dominant genotypes that likely have arisen through
-step-wise accumulation of mutations -- either through \textit{de novo} mutation or
-recombination. In many cases, the first few CTL escapes are very rapid and the
-viral population is large, such that recombination only plays a minor role in
-the accumulation. In \citet{ganusov_mathematical_2013}, a 
-framework for
-multi-locus modeling of CTL escape is presented. Building on this framework, we 
-explicitly model the
-transition from one dominant genotype to another. The restriction to dominant
-genotypes captures the interference between escapes at different epitopes while avoiding
-the need to solve the full multi-locus problem.
+step-wise accumulation of mutations. Note that most likely all escape mutations constantly
+arise in different combinations, but typically only one combination
+rises quickly enough to dominate the population. This dominant genotype
+is then in most cases the source for the next dominant genotype. Later
+in infection, however, recombination is sufficiently frequent that no
+dominant genotype exists and mutations can spread simultaneously.
+
+In Ganusov et al \cite{ganusov_mathematical_2013}, a framework for
+multi-locus modeling of CTL escape is presented. Building on this
+framework, we explicitly model the transition from one dominant genotype
+to another, which is a good approximation of the dynamics for rapid CTL
+escape in acute infection. The restriction to dominant genotypes
+captures the interference between escapes at different epitopes while
+avoiding the need to solve the full multi-locus problem.
 
 %\usepackage{graphics} is needed for \includegraphics
 \begin{figure}[tbp]
 \begin{center}
   \includegraphics[width=0.26\columnwidth]{figures_manuscript/CH58_allele_demo}
-  \includegraphics[width=0.22\columnwidth]{figures_manuscript/CH58_alleles}
+  \includegraphics[width=0.23\columnwidth]{figures_manuscript/CH58_alleles}
   \caption[labelInTOC]{Escape from T-cell mediated immunity. The virus
   population in patient CH58 quickly acquires four substitutions. Panel A
 shows a sketch of genotypes at the first 4 escape mutations, observed
@@ -174,7 +200,7 @@ shows a sketch of genotypes at the first 4 escape mutations, observed
 \end{figure}
 
 We will first define a model of the dynamics of escape mutations. This model
-serves a two-fold purpose: it defines the parameter we would like to
+serves a two-fold purpose: it defines the parameters we would like to
 estimate from the data and provides us with a computational tool to
 investigate how the accuracy of the inference depends on sampling depth and
 frequency, as well as how sensitively it depends on the values of parameters
@@ -182,14 +208,16 @@ such as mutation rates or the population size. We reanalyze existing CTL
 escape data and find that accounting for multi-locus effects in a finite population
 results in higher estimates of the escape rates.
 
-\section{Model} In the majority of sexually transmitted HIV infections, a single 
+\section{Results}
+\subsection{Model} In the majority of sexually transmitted HIV infections, a single 
 ``transmitted/founder" virus initiates the new infection
-resulting in an initially homogenous viral population 
-\citep{keele_identification_2008,SalazarGonzalez:2009p35091}.
+resulting in an initially homogeneous viral population 
+\citep{SalazarGonzalez:2009p35091,keele_identification_2008}.
 However, as HIV replicates in its new host, mutations
 accumulate. Mutations within or in proximity to CTL epitopes can reduce 
 immune pressure by facilitating the avoidance of CTL recognition. 
-For simplicity's sake, we do not differentiate between different mutations
+While one often observes several escape mutations within a single
+epitope \citep{Fischer:2010p40314,henn_whole_2012}, we do not differentiate between different mutations
 within the same epitope and model $L$ epitopes that can be either be
 mutant or wild-type.
 Assuming that the escape at multiple epitopes has additive effects,
@@ -203,12 +231,15 @@ the genotype. Here, $\locus_i=0$ corresponds to a wild-type epitope at locus $i$
 whereas $\locus_i=1$ signifies escape at that epitope. $F_0(t)$ accounts
 for a genotype independent modulation of 
 the growth rate. The latter could, for example, be due to variable numbers of
-target cells \citep{petravic_cd4+_2008}. $F_0(t)$ controls the total population size, while the differences
+target cells \citep{petravic_cd4+_2008,ganusov_estimating_2006}. $F_0(t)$ controls the total population size, while the differences
 between genotypes are accounted for by $\sum_i \fcoeff_i \locus_i$ and result in
 differential amplification of some genotypes over others. The
 $\fcoeff_i$ are the escape rates that we would like to estimate from the data and should
 be interpreted as the net effect of avoided killing and the possible fitness costs associated
-with the mutation; see \textit{e.g.}~\citet{ganusov_mathematical_2013}.
+with the mutation; see \textit{e.g.}~Ganusov et al
+\cite{ganusov_mathematical_2013}. The fitness costs are modulated 
+by the overall growth rate of the viral population and could therefore
+be slightly time dependent. We neglect this complication.
 
 Within our model, mutations arise at a rate
 $\mu$ per base per generation. This rate can be epitope dependent. 
@@ -229,12 +260,12 @@ The size of the population, $N$, can be set at will each generation. In this way
 15 epitopes can be simulated for 1000 generations within seconds to minutes. 
 
 A typical realization of the population dynamics is shown in
-\FIG{example}. As expected, the population is dominated by one genotype at a
-time.
+\FIG{example}, where we have assumed a generation time of one day. 
+As expected, the population is dominated by one genotype at a time.
 Furthermore, the mutations accumulate in decreasing order of escape rate, and the new
 dominant genotype arises from the previous by incorporation of the mutation with
 the largest escape rate available. There are, however, many minority genotypes which
-are rarely observed. Figure \ref{fig:example}B shows the frequencies on a
+are rarely observed. Figure \ref{fig:example}C shows the frequencies on a
 logarithmic scale, where the minor variants are visible. We use these
 simulations to test the accuracy and robustness 
 of the inference procedure developed below.
@@ -242,33 +273,49 @@ of the inference procedure developed below.
 %\usepackage{graphics} is needed for \includegraphics
 \begin{figure}[tpb]
 \begin{center}
-  \includegraphics[width=0.24\columnwidth]{figures_manuscript/dominant_genotypes_demonstration.pdf}
-  \includegraphics[width=0.24\columnwidth]{figures_manuscript/dominant_genotypes_demonstration_log.pdf}
-  \caption[labelInTOC]{(A) The simulated viral population is dominated by one or two dominant
-  genotypes and accumulates mutations sequentially. Nevertheless, the initial
-  dynamics of each genotype is stochastic, and there are many minor variants at
-  any given time. This is best seen in panel (B), where all 32 genotype
+  \includegraphics[width=0.32\columnwidth]{figures_manuscript/mutation_frequency_demonstration.pdf}
+  \includegraphics[width=0.32\columnwidth]{figures_manuscript/dominant_genotypes_demonstration.pdf}
+  \includegraphics[width=0.32\columnwidth]{figures_manuscript/dominant_genotypes_demonstration_log.pdf}
+  \caption[labelInTOC]{Example of simulated escape mutations spreading 
+    through the population. (A) Even though all epitopes are targeted from $t=0$, 
+    escape mutations spread sequentially. The mutation frequency in a
+    sample of size 20 at different time points is indicated by colored
+    dots. (B) The rising mutation
+    frequencies are associated with the rise and fall of multilocus
+    genotypes. The founder virus is first replaced by a dominant single
+    mutant, which itself is replaced by a double mutant and so forth. 
+   Note, however, that the virus population explores many combinations
+   of mutations but that these minor variants never reach appreciable frequency.
+  This is best seen in panel (C), where all 32 genotype
   frequencies are shown on a logarithmic scale. These rare variants are rarely
-  sampled (genotype frequencies in samples of size 20 are indicated by the
-  circles), and their noisy dynamics suggests that little information can be
+  sampled, and their noisy dynamics suggests that little information can be
   gained from them. Here,
-$N = 10^7$, $\mu = 10^{-5}$, and $r = 0$.}
+$N = 10^7$, $\mu = 10^{-5}$, and $r = 0$ and escape rates are
+    $\fcoeff_j = 0.5, 0.4, 0.25, 0.15, 0.08$ per day.}
   \label{fig:example}
 \end{center}
 \end{figure}
 
-Of the many possible genotypes that are present at any moment, only a small
-fraction is likely to be observed in a small sample and to be relevant
-in the future. Simulations and 
-data suggest that the dominant genotypes accumulate mutations one by one -- this
-greatly simplifies the task of estimating escape rates from the data. Instead of
-considering the dynamics of all possible genotypes ($2^L$), we will restrict the 
-inference to a
-chain of genotypes, each containing one additional mutation compared to its
-predecessor. 
+Of the many possible genotypes that are present at any moment, only a
+small fraction is likely to be observed in a small sample and to be
+relevant in the future. Simulations and data suggest that the dominant
+genotypes accumulate mutations one by one -- this greatly simplifies the
+task of estimating escape rates from the data. Instead of considering
+the dynamics of all possible genotypes ($2^L$), we will restrict the
+inference to a chain of genotypes, each containing one additional
+mutation compared to its predecessor.
+
+The best estimates for the HIV generation time are $d=2$ days
+\cite{markowitz_novel_2003}, while estimates of escape rates are
+typically given in units of inverse days rather than generations. For
+simplicity, we simulate our model assuming one generation per day and
+state all rates in units of 1/day. Our results are insensitive to the
+choice of the generation time. Doubling the generation time has similar
+effects to dividing the population size by 2, as this keeps the strength
+of genetic drift constant. 
 
 
-\section{Inferring the escape rates}
+\subsection{Inferring the escape rates}
 Suppose we have obtained sequence samples of size $n_i$ at different time points
 $t_i$ and each of these samples consists of different genotypes $\gt$ present in
 $k(\gt,t_i)$ copies. If the actual frequencies of the those genotypes at
@@ -306,7 +353,7 @@ deterministic dynamics.  Since the dynamics is deterministic after this
 an appropriate choice of the seed time
 \citep{Kepler:1995p26819,Desai:2007p954}. For each of the dominant
 escape variants, $\gt_j$, with $j=1$ to $j=L$ escaped epitopes, we define a
-seed time $\tau_j$ to accomodate the stochastic aspects of the escape dynamics. 
+seed time $\tau_j$ to accommodate the stochastic aspects of the escape dynamics. 
 
 \begin{figure}[tp]
 \begin{center}
@@ -316,7 +363,8 @@ seed time $\tau_j$ to accomodate the stochastic aspects of the escape dynamics.
   epitopes $\fcoeff_i$ 
   (solid lines) captures the dynamics of the stochastic model accurately
   (dashed lines). The trajectories (and seed times) vary from run to run. In this run,
-$N = 10^7$, $\mu = 10^{-5}$, and $r = 0$.}
+$N = 10^7$, $\mu = 10^{-5}$, and $r = 0$ and the escape rates are
+    $\fcoeff_j = 0.5, 0.4, 0.25, 0.15, 0.08$ per day.}
   \label{fig:model_vs_full}
 \end{center}
 \end{figure}
@@ -361,7 +409,7 @@ is given by
 \begin{equation}
 \label{eq:seedtimes}
 Q(\tau_j | \gtfreq_{j-1}(t)) \approx \mu N(\tau_j)\gtfreq_{j-1}(\tau_j) e^{-\mu
-\int_0^{\tau_j}dt\; N(t)\gtfreq_{j-1}(t)} \ .
+\int_0^{\tau_j} N(t)\gtfreq_{j-1}(t)\,dt} \ .
 \end{equation}
 Since the $\gtfreq_j(t)$ are uniquely specified by $\{\tau_k,\fcoeff_k\}_{k=1,\ldots,L}$, we can
 write the posterior probability of the parameters as 
@@ -377,7 +425,7 @@ favoring small escape rates. The prior regularizes the search for the minimum an
 conservative estimates of escape rates.
 
 
-\section{Obtaining maximum likelihood estimates} 
+\subsection{Obtaining maximum likelihood estimates} 
 Finding the set of escape rates and seed times that maximizes the posterior probability
 can be difficult due to multiple maxima and ridges in the high
 dimensional search space, and uncertainty remains.
@@ -395,7 +443,7 @@ parameters as follows:
   \item Fit the first escape assuming $\tau_1=0$ by a
   simple one dimensional minimization. This assumes that single mutants
   are already present in the population, consistent with the large viral population
-  size \citep{coffin_hiv_1995,perelson_dynamics_1997}.
+  size present by the time a patient has been identified as HIV-1 infected \citep{coffin_hiv_1995,perelson_dynamics_1997}.
   \item Add additional epitopes successively by mapping the entire two-dimensional
   posterior distribution $P(\fcoeff_j,\tau_j)$ at fixed $\{\fcoeff_k,\tau_k\}$
   for $k<j$. This step is illustrated in \FIG{sequential_fitting}A.
@@ -405,9 +453,9 @@ parameters as follows:
   \item Generate posterior distributions by Markov chain Monte Carlo (MCMC). 
 \end{itemize}
 
-This procedure is described in more detail in the methods section. It is fast and
-runs on the order of a minute including the generation of (local) posterior
-distributions by MCMC on one 2011 desktop machine (Apple iMac i7 2.93 GHz).
+This procedure is described in more detail in the methods section. Fitting a five epitopes
+takes on the order of a minute on one 2011 desktop machine (Apple iMac i7 2.93 GHz). Generating
+the local posterior distribution by MCMC takes roughly 20 minutes for $10^{6}$ steps.
 
 
 %\usepackage{graphics} is needed for \includegraphics
@@ -436,7 +484,7 @@ distributions by MCMC on one 2011 desktop machine (Apple iMac i7 2.93 GHz).
 \end{figure}
 
 
-\section*{Comparison to simulated data}
+\subsection{Comparison to simulated data}
 To evaluate the accuracy and reliability of our inference scheme, we
 performed true multi-locus stochastic simulations using FFPopSim (see
 methods) and sampled genotypes from the simulation at a small number of
@@ -458,12 +506,12 @@ is typically only sampled at a single data point; it easily happens that
 a genotype is hardly seen at all. We therefore expect all inferences to be quite
 noisy as is the case with patient data.
 
-\subsection{Sample size and sampling frequency dependence} 
+\subsubsection{Sample size and sampling frequency dependence} 
 With more frequent and deeper sampling, inferring the model parameters is
 expected to become simpler. Indeed, as soon as each genotype is sampled more than
 once at intermediate frequency, one can estimate its growth advantage simply
 from its rate of increase. This is the rationale behind previous studies such as
-\citep{Asquith:2006p28003,ganusov_fitness_2011}. In many data sets, however, this
+\citep{ganusov_fitness_2011,Asquith:2006p28003}. In many data sets, however, this
 condition is not met. By constraining the seed time based on the evolutionary
 trajectory of the previous escape, our method is able to produce a more accurate
 reconstruction of parameters with less data. 
@@ -478,7 +526,7 @@ improvements.
 \begin{figure}[htp]
 \begin{center}
   \includegraphics[width=0.49\columnwidth,type=pdf,ext=.pdf,read=.pdf]
-{figures_manuscript/model_sampling_variation_ML_logN_7_F_10_S_1}
+{figures_manuscript/model_sampling_variation_ML_logN_7_simMu_1e-05_F_10_S_1}
   \caption[labelInTOC]{The dependence of the accuracy of inference on sample sizes (panel A)
   and sampling intervals (panel B). The actual normalized 
   escape rate is 1.0 and is shown by the dashed line. Sample size only moderately 
@@ -489,13 +537,14 @@ improvements.
   illustrated in \FIG{example} when sample size is varied. The plots show the
   mean $\pm$ one standard deviation. The actual values of the escape rates simulated
 are shown in the legend (same on both panels). In each run,
-$N = 10^7$, $\mu = 10^{-5}$, and $r=0$.}
+$N = 10^7$, $\mu = 10^{-5}$, and $r=0$. Mean and standard deviation at
+each point are calculated from 100 independent simulations. }
   \label{fig:sample}
 \end{center}
 \end{figure}
 
 
-\subsection{Model deviations}
+\subsubsection{Model deviations}
 The population size and the mutation rate explicitly enter our model through the
 seed time prior, but we rarely know these numbers accurately. Hence we
 need to understand how inaccurate assumptions affect our estimates.
@@ -533,36 +582,35 @@ inference method to simulation data with recombination. Recombination
 starts to have substantial effects once coinfection exceeds a few
 percent. Recombination primarily affects the incorporation of more
 weakly selected mutations and can be ignored for very strongly selected
-CTL escape mutations.
+CTL escape mutations. Recombination also has negligable effects if the
+mutation rates is large as is seen in panel F of \FIG{modeldeviation}.
 
 %\usepackage{graphics} is needed for \includegraphics
 \begin{figure*}[htp]
 \begin{center}
-  \includegraphics[width=0.75\columnwidth]{figures_manuscript/model_variation_logN_7_tau_0_F_10_S_1}
-  \caption[labelInTOC]{The effect of assuming the wrong population parameters
-  on the escape rate estimates. The actual 
-  normalized escape rate is 1.0 and is shown by the dashed line. We let $N = 10^7$ and $\mu=10^{-5}$ in each run;
- in panel C, the simulated recombination rate varies as shown.
-  A) Assuming too large of a population size
-  results in estimates that are too low. B) Similarly, if the mutation rate is
-  assumed too large, the estimated seeding of multiple mutants occurs too late
-  and results in low estimates.
-  C) If the population recombines, the actual seed times are smaller
+  \includegraphics[width=0.99\columnwidth]{{figures_manuscript/model_variation_logN_7_mu_1e-05_tau_0_F_10.0_S_1}.pdf}
+  \includegraphics[width=0.99\columnwidth]{{figures_manuscript/model_variation_logN_7_mu_0.0001_tau_0_F_10.0_S_1}.pdf}  \caption[labelInTOC]{The effect of assuming the wrong population parameters on the escape rate estimates. To quantify the robustness against wrong assumptions, we simulate escape dynamics with parameters different from those assumed in the escape rate estimation. Panels A-C show simulations with $N=10^{7}$ and $\mu=10^{-5}$ per day, while panels D-F use a ten-fold higher mutation rate $\mu=10^{-4}$. In panels C and F, the simulated recombination rate varies as shown.
+  A \& D) Assuming a too small population size
+  results in estimates that are too large. The effect is more pronounced at lower mutations rates. 
+B) Similarly, if the mutation rate is assumed too large, the estimated seeding of multiple mutants occurs too early and the estimates of escape rates are too low. Note that assuming the correct rates ($\mu=10^{-5}$ in B and $\mu=10^{-4}$ in F) results in unbiased estimates. 
+ C \& F) If the population recombines, the actual seed times are smaller
   than those estimated by the fitting routine. To compensate for the
   shorter time interval during which the escape variant rises, the
-  estimates of escape rates are larger than the actual escape rates.  }
+  estimates of escape rates are larger than the actual escape rates at least at 
+low mutations rates. For high mutations rates, recombination is less important since additional mutations are more efficient at producing multiple mutants than recombination. Mean and standard deviation at
+each point are calculated from 100 independent simulations.  }
   \label{fig:modeldeviation}
 \end{center}
 \end{figure*}
 
-\subsection{Unobserved intermediates and compensatory mutations}
+\subsubsection{Unobserved intermediates and compensatory mutations}
 The time intervals between successive samples are sometimes too large to observe
 the accumulation of single mutations, so the dominant genotype at one
 time point differs by more than one mutation from the previous. This can arise
 for two reasons. First, one or several unobserved genotypes may have transiently been at
-high frequency but been outcompeted by later genotypes before the next sample
+high frequency but been out-competed by later genotypes before the next sample
 was taken.
-Second, one escape might have required more than one mutation to begin with, for 
+Second, one escape might have required more than one mutation, for 
 example because
 single mutants are not viable and a compensatory mutation is needed
 \citep{read_stochastic_2012}. Both scenarios can be accounted for in our scheme
@@ -571,19 +619,21 @@ and are illustrated in \FIG{degenerate}.
 %\usepackage{graphics} is needed for \includegraphics
 \begin{figure}[htp]
 \begin{center}
-  \includegraphics[width=0.24\columnwidth]{figures_manuscript/sequential_degen_traj_log.pdf}
-  \includegraphics[width=0.24\columnwidth]{figures_manuscript/sequential_valley_traj_fit_log.pdf}
+  \includegraphics[width=0.3\columnwidth]{figures_manuscript/sequential_degen_traj_log.pdf}
+  \includegraphics[width=0.3\columnwidth]{figures_manuscript/sequential_valley_traj_fit_log.pdf}
   \caption[labelInTOC]{Unobserved intermediates and compensatory mutations.
-  Panel A shows a scenario where the genotype with only 2 escape mutations
+  Panel A shows a scenario where the genotype with only 2 escape
+  mutations (blue)
   was not observed even though this genotype was transiently at high frequencies.
   We fit this scenario by assuming both mutations have the same escape rate but
-  occur sequentially. Panel B shows a scenario where escape mutations 3 and 4
+  occur sequentially ($N=10^{7},\, r=0,\, \mu=10^{-5}$). 
+  Panel B shows a scenario where escape mutations 3 and 4
   only occur together and any genotype containing only one of the two mutations
-  in unviable. Hence the effective mutation rate into the genotype is
+  is not viable. Hence the effective mutation rate into the genotype is
   $\mu^2=10^{-10}$ and the waiting time for this genotype is longer. Note that
-  the population size is $N=10^9$ in this example. The last escape only appears
+  the population size is $N=10^9$ in this example ($r=0,\, \mu=10^{-5}$). The last escape only appears
   once the previous escape mutations have reached frequency one, and the seeding
-  time is quite variable.  }
+  time is quite variable.}
   \label{fig:degenerate}
 \end{center}
 \end{figure}
@@ -613,11 +663,11 @@ constraint, more data are required in order to estimate the escape rate accurate
 \FIG{degenerate}.
 
 
-\section{Immune escape in HIV-infected patients} 
+\subsection{Immune escape in HIV-infected patients} 
 CTL escape was characterized in detail in the
 patients CH58, CH40, and CH77
-\citep{SalazarGonzalez:2009p35091,Goonetilleke:2009p42296} and further analyzed
-in \citet{ganusov_fitness_2011}. Sequences were obtained by single
+\citep{Goonetilleke:2009p42296, SalazarGonzalez:2009p35091} and further analyzed
+in Ganusov et al \cite{ganusov_fitness_2011}. Sequences were obtained by single
 genome amplification followed by traditional sequencing.
 The data are sparser and less densely sampled than most of the artificial
 examples analyzed above, so any estimates are necessarily rather imprecise.
@@ -631,25 +681,31 @@ but might be larger during peak viremia or smaller
 due to bottleneck effects or the myriad of factors influencing patient-to-patient
 variation in viral load. We determined posterior distributions for
 population sizes ranging from $N=10^5$ to $N=10^8$. The mutation rate was set to
-$10^{-5}$ \citep{Mansky:1995p38971}. Recombination in HIV occurs but is not
+$10^{-5}$ per day \citep{Mansky:1995p38971}. This value is appropriate
+if only one escape mutation per epitope is available. If escape can
+happen in many different ways, a higher rate of about $\mu=10^{-4}$ per
+day should be used and we repeated the estimation with $\mu=10^{-4}$
+finding similar results, see below. Both of these scenarios are observed \citep{henn_whole_2012}.
+Recombination in HIV occurs but is not
 modeled here since its rate is low \citep{Neher:2010p32691,Batorsky:2011p40107},
 and it is expected to be less relevant for the strong escapes in large
 populations. In large populations, recurrent mutation is often more effective
 at accumulating escape mutations than recombination between two rare variants.
 Nevertheless, the neglect of recombination can lead to overestimation of escape
 rates; see above. Lastly, we assume that infection occurred $\tau=20$ days before
-the patient was identified and the viral population sampled.
+the patient was identified and the viral population sampled \cite{Goonetilleke:2009p42296}.
 
 For each patient, we initially considered all nonsynonymous mutations that are eventually
 sampled at high frequency as potential candidates for sequential escape mutants. 
 Nearby mutations in the same epitope were combined into one escape. We refined
 this list of candidates by considering only time points early in infection that were sampled with
-more than 5 genomes per time point and only the first 3-6 earliest strong escapes.
+more than 5 genomes per time point and only the first 3-6 earliest
+strong escapes. All samples used had between 7 and 15 sequences.
 The frequencies of these escape mutations and their linkage into
 multi-locus genotypes in the 5' and 3' half of the genome, which were
 sequenced independently, can be easily
 determined from the alignment provided in
-\citet{SalazarGonzalez:2009p35091}. Linkage information between
+Salazar-Gonzales et al \cite{SalazarGonzalez:2009p35091}. Linkage information between
 the 5' and 3' half genomes is missing but can in all cases be imputed
 using the assumption of sequential escapes.  We ignored mutations whose frequency
 does not increase monotonically such as pol80 in subject CH40.
@@ -657,13 +713,20 @@ Later in infection, there is extensive non-synonymous diversity and it is not
 feasible to fit a time course for most of these mutations.
 
 In CH40 we considered samples at time points $t = 0$, 16, 45, 111, and 181 days and 
-identified escape in six epitopes; the first escape occurs in nef185, followed by three indistinguishable escapes at
-gag113, gag389, and vpr74
+identified escape in six epitopes; the first escape occurs in nef185,
+followed by three indistinguishable escapes at gag113, gag389, and vpr74
 and two additional escapes in vif161 and env145. Following 
-\citet{ganusov_fitness_2011} the number in the epitope name refers
+Ganusov et al \cite{ganusov_fitness_2011} the number in the epitope name refers
 to the beginning of the 18-mer peptide covering the epitope. The mutation
-at env145 was not analyzed in \citet{ganusov_fitness_2011} and 145
+at env145 was not analyzed in Ganusov et al \cite{ganusov_fitness_2011} and 145
 is simply the number of the mutated amino acid in gp120.
+The indistinguishable escapes gag113, gag389, and vpr74 are treated as
+described in section 2.4.3 on unobserved intermediates (all three escapes are
+assumed to have identical escape rates and only their seed times are
+varied). Note that the fifth escape at epitope vif161 shows almost the
+same escape pattern as the three indistinguishable escapes preceeding
+it. The escape rates of gag113, gag389, vpr74 and vif161 should
+therefore be interpreted with care.
 In CH58 we considered samples at time points $t = 0$, 9, 45, and 85 days and identified
 four escapes; the first escape is at env581 and the second at env830,
 followed by nef105 and gag236. 
@@ -685,16 +748,10 @@ $10^6$ steps with samples taken every $1000$ steps.
 
 
 Figure \ref{fig:patients} shows the posterior distributions of the escapes rate for
-different epitopes in the three patients evaluated. Larger
+different epitopes in the three patients evaluated assuming a mutation
+rate $\mu=10^{-5}$ per day. Larger
 population sizes result in smaller estimates of the escape rates, as expected 
-from \FIG{modeldeviation}A.
-Population sizes larger than $10^8$ are large enough to make
-instantaneous double mutants possible, which reduces some seed times
-dramatically. In some of the patients, the data are compatible with a very low
-escape rate for one of the epitopes for population sizes above $10^7$. In these
-instances the escape mutation in question happens very early during the previous
-escape and hitchhikes to high frequency without strong intrinsic selection. 
-
+from \FIG{modeldeviation}A. 
 The posterior distribution for the first escapes are often very tight,
 but they depend on the time of the onset of CTL selection, which we have
 set here to $T=20$ days prior to the first sample. If we assume that the
@@ -705,33 +762,63 @@ $0.9$, while later escapes are almost not sensitive to the choice of $T$.
 %\usepackage{graphics} is needed for \includegraphics
 \begin{figure}[htp]
 \begin{center}
-  \includegraphics[width=0.49\columnwidth]{figures_manuscript/CH40_F_10_S_1_tau_20_posterior}
-  \includegraphics[width=0.49\columnwidth]{figures_manuscript/CH58_F_10_S_1_tau_20_posterior}
-  \includegraphics[width=0.49\columnwidth]{figures_manuscript/CH77_F_10_S_1_tau_20_posterior}
+  \includegraphics[width=0.49\columnwidth]{figures_manuscript/CH40_F_10_S_1_mu_1e-05_tau_20_posterior}
+  \includegraphics[width=0.49\columnwidth]{figures_manuscript/CH58_F_10_S_1_mu_1e-05_tau_20_posterior}
+  \includegraphics[width=0.49\columnwidth]{figures_manuscript/CH77_F_10_S_1_mu_1e-05_tau_20_posterior}
+  \includegraphics[width=0.49\columnwidth]{figures_manuscript/CH40_F_10_S_1_tau_20_mu_1e-05_logN_7_most_likely_traj}
   \caption[labelInTOC]{The posterior distribution of the escape rates for
-  different population sizes. For comparatively small populations, the
-  distributions are very broad since seeding of multiple mutants remains very
-  stochastic and happens later, such that high escape rates are
-  required to match the data. It is assumed that CTL selection starts 20 days
-  prior to the data of identification, and the fitness prior has weight
+  different population sizes. It is assumed that CTL selection starts 20 days
+  prior to the date of identification, and the fitness prior has weight
   $\fitprior=10$. The black vertical and horizontal lines indicate the
   estimates and confidence intervals obtained in
-  \citet{ganusov_fitness_2011}. Note that the mutation env145 in
-  CH40 was not analyzed in \citet{ganusov_fitness_2011}. }
+  Ganusov et al \cite{ganusov_fitness_2011}. Note that the mutation env145 in
+  CH40 was not analyzed in Ganusov et al \cite{ganusov_fitness_2011}. 
+The lower right panel shows the most likely genotype trajectories for patient CH40 with 
+parameters $N=10^{7}$ and $\mu=10^{-5}$. Each curve is labeled by an epitope, but should
+be understood as the frequency of the genotype that has escaped at this and all previous epitopes. Note
+that no data is available to differentiate epitopes gag113, gag389 and vpr74. For those, we assume an
+arbitrary order and equal escape rates as explained in Sec.~2.4.3. }
   \label{fig:patients}
 \end{center}
 \end{figure}
 
 
-While the posterior distributions are quite broad, they nevertheless suggest
+While the posterior distributions of escape rates of subsequent escape
+rates are quite broad, they nevertheless suggest
 that escape rates can be substantially higher than previously
 estimated \citep{ganusov_fitness_2011,Asquith:2006p28003}.
 Furthermore, the escape rate is not obviously negatively correlated with the
-time of emergence.
-The underlying reason for this is that selection on a late escape is really only active after the
+time of emergence during acute infection with HIV-1, at least for the
+earliest four to six escapes.
+The underlying reason for this is that selection on a late escape is only active after the
 successful multiple mutant has been produced. In previous single epitope
 estimates, selection was allowed to act on the mutant frequency from the very
-beginning, resulting in a reduced estimate of the escape rate. 
+beginning, resulting in a reduced estimate of the escape rate. Figure
+\ref{fig:patients} also shows the inferred trajectories for the most
+likely parameter combination for patient CH40. One clearly sees the
+rapid rise and fall of multiple genotypes between the second and third
+time point. Given the large number of genotypes involved and the little
+data available, the escape rates estimated for this case are rather
+noisy. But this analysis clearly shows that strong selection is
+necessary to bring four mutations to fixation in just a few weeks.
+We repeated the analysis of the patient data assuming a mutation rate of
+$\mu=10^{-4}$ and show the results in \FIG{patients_high_mut}. The
+overall picture is similar to what we found for $\mu=10^{-5}$ per day,
+but escape rates tend to be lower.
+
+%\usepackage{graphics} is needed for \includegraphics
+\begin{figure}[htp]
+\begin{center}
+  \includegraphics[width=0.49\columnwidth]{figures_manuscript/{CH40_F_10_S_1_mu_0.0001_tau_20_posterior}.pdf}
+  \includegraphics[width=0.49\columnwidth]{figures_manuscript/{CH58_F_10_S_1_mu_0.0001_tau_20_posterior}.pdf}
+  \includegraphics[width=0.49\columnwidth]{figures_manuscript/{CH77_F_10_S_1_mu_0.0001_tau_20_posterior}.pdf}
+  \includegraphics[width=0.49\columnwidth]{figures_manuscript/{CH40_F_10_S_1_tau_20_mu_0.0001_logN_7_most_likely_traj}.pdf}
+  \caption[labelInTOC]{Posterior distributions of escape rate assuming a
+    mutation rate $\mu=10^{-4}$ per day. See \FIG{patients} for other details. }
+  \label{fig:patients_high_mut}
+\end{center}
+\end{figure}
+
 
 \section{Discussion}
 We have suggested a way to infer viral escape rates from time series data sparsely sampled
@@ -740,14 +827,15 @@ HIV. We exploit the sequential nature at which escape mutations accumulate, whic
 allows us to constrain the times at which new escape mutations arose. These
 constraints regularize the inference to a large extent, but additional stability
 is gained by prioritizing small escape rates through an
-exponential prior.
+exponential prior. 
+
 
 Rates of single escape mutations have so far been estimated by comparing the
 time series data to a model that assumes logistic growth of the mutation with a
 constant rate. This approach has been used to analyze the intra-patient dynamics
 of recombinant HIV \citep{Liu:2002p20788}, drug resistance
 \citep{Paredes:2009p40058,Bonhoeffer:2002p40059}, and CTL escape dynamics
-\citep{Asquith:2006p28003,ganusov_fitness_2011,ganusov_estimating_2006,asquith_vivo_2007,petravic_estimating_2008}
+\citep{ganusov_fitness_2011,Asquith:2006p28003,ganusov_estimating_2006,asquith_vivo_2007,petravic_estimating_2008}.
 While these methods work well if
 each mutation is sampled multiple times at intermediate frequencies, they
 provide very conservative lower bounds when data is sparse.
@@ -759,34 +847,67 @@ poor approximation. Our method improves on previous methods on both of these
 counts. We explicitly model the competition between escape mutations. This
 competition places constraints on the times at which genotypes with multiple
 escapes first arise (double mutants arise only after the single mutants), which
-makes the inference more robust and the lower bound tighter. A related method
-has been proposed by Leviyang \citep{leviyang_computational_2013}, who modeled multiple
-escape mutations by an escape graph that is traversed by the viral population.
-Similar ideas have been developed in the context of mutations in cancer or
-evolution experiments \citep{illingworth_method_2012}. 
+makes the inference more robust and the lower bound tighter. 
 
-While previous methods neglect interactions between epitopes
-altogether -- equivalent to assuming very rapid recombination -- our
-method ignores recombination during the inference. By comparison with
-simulations that include recombination,
-we have shown that neglecting recombination can result in
-overestimates of roughly 30\% at plausible recombination rates of
-1\% \citep{Neher:2010p32691,Batorsky:2011p40107}. These deviations are
+A related method to estimate CTL escape rates has been proposed by
+Leviyang \citep{leviyang_computational_2013}, who modeled multiple
+escape mutations by an escape graph that is traversed by the viral
+population. Combining these two approaches, intra-epitope competition
+as modeled in \citep{leviyang_computational_2013} and the between
+epitope competition studied here would be an interesting extension.
+Similar ideas have been developed in the context of mutations in cancer
+or evolution experiments \citep{illingworth_method_2012}.
+
+While previous methods neglect interactions between epitopes altogether
+-- equivalent to assuming very rapid recombination -- our method ignores
+recombination during the inference. By comparison with simulations that
+include recombination, we have shown that neglecting recombination can
+result in overestimation of the escape rates by roughly 30\% at plausible
+recombination rates of 1\%
+\citep{Neher:2010p32691,Batorsky:2011p40107}. We also show that
+neglecting recombination is less of a problem at higher mutation rates.
+Note that neglecting recombination cannot explain the larger escape
+estimates compared to previous studies. For patient CH58 we find escape
+rates that are up to three-fold higher than earlier estimates 
+\citep{ganusov_fitness_2011}, while we never see such a big deviation in
+our sensitivity analysis. Furthermore, the errors made when neglecting
+recombination for rapid early escapes are
 comparable to the uncertainties that result from infrequent sampling
-or more severe deviations of the model from reality, such as for
-example time variable CTL activity.
+or more severe deviations of the model from reality, such as
+time variable CTL activity. 
 
 Reanalysis of CTL escape data from HIV using our method suggests that
 CTL escapes are substantially more rapid than previously thought. Even
-with a large prior against high escape rates ($\fitprior=10$), most
-escape rates are estimated to be on the order of $0.3-0.4$ per day. The
-estimates at large population sizes are fairly insensitive to the prior.
-When a small population size ($N=10^6$ or below) is assumed, the
-estimates increase even more when the prior is relaxed. Early in
-infection, it is plausible to assume that the relevant size is $N=10^7$
-or larger such that every single nucleotide mutation is produced every
-day
-\citep{boltz_ultrasensitive_2012,coffin_hiv_1995,perelson_dynamics_1997}.
+with a large prior against high escape rates ($\fitprior=10$), we
+estimate that the escape rates of the first 4-6 escapes are on the order
+of $0.3-0.4$ per day. The estimates at large population sizes are fairly
+insensitive to the prior for population sizes of $10^{6}$ or
+larger. Early in infection, it is plausible to assume that the relevant
+size is $N=10^7$
+\citep{coffin_hiv_1995,perelson_dynamics_1997,boltz_ultrasensitive_2012}.
+If population sizes are small, relaxing the prior against high escape
+rates results in larger estimates, which further supports our finding
+that escape rates are often large and competition between escapes needs
+to be modeled. Given the sparse data, we can only estimate parameters of simple models
+and have to neglect many complicating features of HIV biology. Among
+other factors, the rate at which escape mutations are selected depends
+on the overall $R_0$ of the infection and CTL selection is probably time
+variable \cite{ganusov_fitness_2011}. The estimated parameters therefore
+represent time averaged effect escape rates.
+
+The timing of escape has been shown to depend on epitope entropy
+and immunodominance \citep{liu_vertical_2013}. However, we modeled only
+the first four to six escapes in each patient from which rather little
+information about differential timing can be obtained. In the case of
+CH77, the first four escapes occurred within a month from the
+identification of the patient. In patient CH58, it took roughly three
+month for four escapes to spread and the estimated escape rates are
+lower as expected. In the case of CH40 four of the six escapes show
+almost or completely indistinguishable escape patterns and we have
+little power to differentiate the escape rates at epitopes gag113,
+gag389, vpr74 and vif161. Hence any meaningful correlation with
+immunological features and epitope sequence conservation, i.e.,
+low entropy, requires more data.
 
 The proposed method to analyze multi-locus time series of adaptive
 evolution could be useful in many context where the genotypic
@@ -797,9 +918,9 @@ analysis. Outside of virus evolution, possible applications include
 the development of cancer and microbial evolution experiments. 
 
 
-\section{Methods}
+\section{Materials \& Methods}
 
-\subsubsection{Data Preparation.} 
+\subsection{Data Preparation.} 
 Our fitting method uses counts $k_{ij}$ of genotypes $\gt_j$ at time
 points $t_i$ to infer escape rates of individual mutations. The
 procedure used to obtain successive genotype counts from sequence data
@@ -835,8 +956,16 @@ trajectories (generated by FFPopSim) by binomial sampling (with size $n_{i}$) at
 time points $t_i$. Trajectory generation and sampling are implemented in the file
 \texttt{model\_fit/ctlutils.py} at \url{http://git.tuebingen.mpg.de/ctlfit}; see below.
 
+\subsubsection{Sequence data}
+The HIV sequences for patients CH40, CH58 and CH77 where downloaded from
+\url{http://www.hiv.lanl.gov/content/sequence/HIV/USER_ALIGNMENTS/Salazar.html}
+\citep{SalazarGonzalez:2009p35091}. 
+%These sequences are also avaiable
+%from GenBank/EMBL/DDBJ under accession nos.~FJ495804–FJ496214,
+%EU578998–EU579004, EU579006–EU579015, EU579018–EU579019,
+%EU576471–EU576521, and FJ919955–FJ919967.
 
-\subsubsection{Inference.} 
+\subsection{Inference.} 
 The inference procedure consists of \emph{initial guessing}, \emph{sequential
 addition of escapes}, \emph{multi-dimensional refinement}, and estimation of
 \emph{posterior distributions}. The implementation can be found in
@@ -966,15 +1095,15 @@ is supported by the ERC starting grant HIVEVO 260686 (RAN) and in part by the Na
 Science Foundation under Grant No.~NSF PHY11-25915. This work was
 performed under the auspices of the US Department of Energy under contract DE-
 AC52-06NA25396 and supported by NIH grant AI028433, the National Center
-for Research Resources, and the Office of Research Infrastructure Programs (ORIP)
+for Research Resources and the Office of Research Infrastructure Programs (ORIP)
 through grant OD011095 (ASP).
 
 
 
 %\bibliographystyle{./plainnat}
 %\bibliographystyle{apsrmp}
-\bibliographystyle{plainnat} % for Science articles
-%\bibliographystyle{unsrt} % for Medicine articles
+%\bibliographystyle{plainnat} % for Science articles
+\bibliographystyle{unsrt} % for Medicine articles
 
 \bibliography{ctl_fitting}
 \end{document}

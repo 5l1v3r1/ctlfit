@@ -168,7 +168,7 @@ double selection(double gtfitness, double meanfit){
  */
 double seedtime_LH(double N, double mu, double gtfitness, double meanfit, double freq, double intfreq){
 	double ST_LH;
-	ST_LH = -log(freq+mu)+N*mu*intfreq;
+	ST_LH = -log(freq+0*mu)+N*mu*intfreq;
 	return ST_LH;
 }
 
